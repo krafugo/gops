@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	tmpl "gofio/templates"
+	"gofio/utils"
 )
 
 func main() {
-	template, err := tmpl.New("templates/sample.tmpl", "sample")
+	template, err := utils.New("templates/sample.tmpl", "sample")
 	if err != nil {
 		fmt.Println("Error reading Template ", err)
 	}

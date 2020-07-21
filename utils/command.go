@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 // Command ...
@@ -12,6 +13,12 @@ type Command struct {
 	Args   []string
 	Dir    string
 	Stdout bool
+}
+
+// NewC ...
+func NewC(cmd, dir string, stdout bool) Command {
+	args := strings.Split(cmd, `"`)
+	return Command{args[0], args[1:], dir, stdout}
 }
 
 // Execute ...

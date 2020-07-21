@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strings"
 )
@@ -43,8 +42,6 @@ func New(filename string, root string) (Template, error) {
 
 //Build ...
 func (t Template) Build() error {
-	// Make root
-
 	// Make dirs
 	for _, dir := range t.Dirs {
 		dir = filepath.Join(t.Root, dir)
@@ -66,26 +63,35 @@ func (t Template) Build() error {
 
 // CreateRepo ...
 func (t Template) CreateRepo() error {
-	cmd := exec.Command("git", "init")
-	cmd.Dir = t.Root + "/"
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	// out, err := cmd.CombinedOutput()
-	err := cmd.Run()
-	if err != nil {
-		return err
-	}
-	cmd = exec.Command("git", "add", ".")
-	cmd.Dir = t.Root + "/"
-	err = cmd.Run()
-	if err != nil {
-		return err
-	}
-	cmd = exec.Command("git", "commit", "-q", "-m", "Initial Commit")
-	cmd.Dir = t.Root + "/"
-	err = cmd.Run()
-	if err != nil {
-		return err
-	}
-	return nil
+	gitInit := NewC("git init", t.Root, true)
+	gitAdd := NewC("git add .", t.Root, true)
+	gitCommit := NewC(`git commit -q -m "Initial Commit"`, t.Root, true)
+	commands := Commands{gitInit, gitAdd, gitCommit}
+	return commands.ExecuteAll()
 }
+
+// // CreateRepo ...
+// func (t Template) CreateRepo() error {
+// 	cmd := exec.Command("git", "init")
+// 	cmd.Dir = t.Root + "/"
+// 	cmd.Stdout = os.Stdout
+// 	cmd.Stderr = os.Stderr
+// 	// out, err := cmd.CombinedOutput()
+// 	err := cmd.Run()
+// 	if err != nil {
+// 		return err
+// 	}
+// 	cmd = exec.Command("git", "add", ".")
+// 	cmd.Dir = t.Root + "/"
+// 	err = cmd.Run()
+// 	if err != nil {
+// 		return err
+// 	}
+// 	cmd = exec.Command("git", "commit", "-q", "-m", "Initial Commit")
+// 	cmd.Dir = t.Root + "/"
+// 	err = cmd.Run()
+// 	if err != nil {
+// 		return err
+// 	}
+// 	return nil
+// }
