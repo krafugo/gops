@@ -17,8 +17,35 @@ type Command struct {
 
 // NewC ...
 func NewC(cmd, dir string, stdout bool) Command {
-	args := strings.Split(cmd, `"`)
+	args := splitCMD(cmd)
 	return Command{args[0], args[1:], dir, stdout}
+}
+
+func splitCMD(cmd string) []string {
+	fields := strings.Fields(cmd)
+	if strings.Count(cmd, `"`)%2 != 0 {
+		return fields
+	}
+	var result []string
+	n := len(fields)
+	for i := 0; i < n; i++ {
+		f := fields[i]
+		if strings.HasPrefix(f, `"`) {
+			var aux string
+			for j := i; j < n; j++ {
+				if strings.HasSuffix(fields[j], `"`) {
+					aux += fields[j]
+					i = j
+					break
+				}
+				aux += fields[j] + " "
+			}
+			result = append(result, aux)
+			continue
+		}
+		result = append(result, f)
+	}
+	return result
 }
 
 // Execute ...

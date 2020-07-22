@@ -15,6 +15,4 @@ func main() {
 		fmt.Println("Error creating Template ", err)
 	}
 	fmt.Println("DONE!")
-	// os.Create()
-	// os.Mkdir()
 }

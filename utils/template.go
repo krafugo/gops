@@ -69,29 +69,3 @@ func (t Template) CreateRepo() error {
 	commands := Commands{gitInit, gitAdd, gitCommit}
 	return commands.ExecuteAll()
 }
-
-// // CreateRepo ...
-// func (t Template) CreateRepo() error {
-// 	cmd := exec.Command("git", "init")
-// 	cmd.Dir = t.Root + "/"
-// 	cmd.Stdout = os.Stdout
-// 	cmd.Stderr = os.Stderr
-// 	// out, err := cmd.CombinedOutput()
-// 	err := cmd.Run()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	cmd = exec.Command("git", "add", ".")
-// 	cmd.Dir = t.Root + "/"
-// 	err = cmd.Run()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	cmd = exec.Command("git", "commit", "-q", "-m", "Initial Commit")
-// 	cmd.Dir = t.Root + "/"
-// 	err = cmd.Run()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
