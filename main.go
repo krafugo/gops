@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"gofio/utils"
+	"gops/utils"
 )
 
 func main() {
