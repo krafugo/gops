@@ -19,6 +19,7 @@ package cmd
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -55,15 +56,18 @@ func init() {
 
 func listTemplates() {
 	ext := ".tmpl"
+	tmplPath := os.Getenv("GOPS_TEMPLATES")
 	// os.FileInfo
-	files, err := ioutil.ReadDir("templates")
+	files, err := ioutil.ReadDir(tmplPath)
 	if err != nil {
 		fmt.Println("Error listing templates: ", err)
 	}
+	fmt.Printf("————[ List of available Templates ]————\n\n")
 	for _, file := range files {
 		f := file.Name()
 		if strings.HasSuffix(f, ext) {
-			fmt.Println("> " + strings.Replace(f, ext, "", 1))
+			fmt.Println("\t      + " + strings.Replace(f, ext, "", 1))
 		}
 	}
+	fmt.Printf("\n> You can choose anyones of above templates!\n")
 }

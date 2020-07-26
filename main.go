@@ -17,9 +17,28 @@ limitations under the License.
 package main
 
 import (
+	"log"
+	"os"
+
 	"github.com/krafugo/gops/cmd"
 )
 
 func main() {
 	cmd.Execute()
+}
+
+// TemplatePath ...
+const TemplatePath = "/src/github.com/krafugo/gops/templates/"
+
+func init() {
+	gopath := os.Getenv("GOPATH")
+	if len(gopath) == 0 {
+		log.Fatal("GOPATH environment variable is not set. " +
+			"Please refer to http://golang.org/doc/code.html to configure your Go environment.")
+	}
+	err := os.Setenv("GOPS_TEMPLATES", gopath+TemplatePath)
+	if err != nil {
+		log.Fatal("GOPATH environment variable is not set. " +
+			"Please refer to http://golang.org/doc/code.html to configure your Go environment.")
+	}
 }

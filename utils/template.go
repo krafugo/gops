@@ -4,14 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
 )
-
-// TemplatePath ...
-const TemplatePath = "/src/github.com/krafugo/gops/templates/"
 
 // Template ...
 type Template struct {
@@ -72,17 +68,4 @@ func (t Template) CreateRepo() error {
 	gitCommit := NewC(`git commit -q -m "Initial Commit"`, t.Root, true)
 	commands := Commands{gitInit, gitAdd, gitCommit}
 	return commands.ExecuteAll()
-}
-
-func init() {
-	gopath := os.Getenv("GOPATH")
-	if len(gopath) == 0 {
-		log.Fatal("GOPATH environment variable is not set. " +
-			"Please refer to http://golang.org/doc/code.html to configure your Go environment.")
-		err := os.Setenv("GOPS_TEMPLATES", gopath+TemplatePath)
-		if err != nil {
-			log.Fatal("GOPATH environment variable is not set. " +
-				"Please refer to http://golang.org/doc/code.html to configure your Go environment.")
-		}
-	}
 }
