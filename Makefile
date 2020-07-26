@@ -2,4 +2,4 @@ clean:
 	rm -rf sample/
 
 install:
-	go install gops
+	go install github.com/krafugo/gops
