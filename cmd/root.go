@@ -39,7 +39,19 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
-	Run: func(cmd *cobra.Command, args []string) { fmt.Println("Hello CLI") },
+	Run: func(cmd *cobra.Command, args []string) {
+		banner := `
+		         ____  ___  ____  ____
+		__/\__  / ___|/ _ \|  _ \/ ___|  __/\__
+		\    / | |  _| | | | |_) \___ \  \    /
+		/_  _\ | |_| | |_| |  __/ ___) | /_  _\
+		  \/    \____|\___/|_|   |____/    \/
+		
+		  [Generator Of Projects Structures]
+              		--> code by @krafugo
+		`
+		fmt.Println(banner)
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

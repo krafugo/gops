@@ -58,7 +58,7 @@ func init() {
 
 func initProject(name, tmpl string) {
 	tmplPath := os.Getenv("GOPS_TEMPLATES") + tmpl + ext
-	template, err := utils.New(tmplPath, name)
+	template, err := utils.New(tmplPath, name, tmpl)
 	// template, err := utils.New("../templates/"+tmpl+ext, name)
 	if err != nil {
 		fmt.Println("Error reading Template ", err)
