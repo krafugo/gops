@@ -44,7 +44,7 @@ func New(filename, root, tmplName string) (Template, error) {
 }
 
 //Build ...
-func (t Template) Build() error {
+func (t Template) Build(norepo bool) error {
 	// Make dirs
 	for _, dir := range t.Dirs {
 		dir = filepath.Join(t.Root, dir)
@@ -60,6 +60,9 @@ func (t Template) Build() error {
 		if err != nil {
 			return err
 		}
+	}
+	if norepo {
+		return nil
 	}
 	return t.CreateRepo()
 }

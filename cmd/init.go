@@ -38,13 +38,14 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		initProject(args[0], args[1]) // Project name, template name
+		norepo, _ := cmd.Flags().GetBool("norepo")
+		initProject(args[0], args[1], norepo) // Project name, template name
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(initCmd)
-
+	initCmd.Flags().Bool("norepo", false, "Don't create Git repository")
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
@@ -56,14 +57,14 @@ func init() {
 	// initCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func initProject(name, tmpl string) {
+func initProject(name, tmpl string, norepo bool) {
 	tmplPath := os.Getenv("GOPS_TEMPLATES") + tmpl + ext
 	template, err := utils.New(tmplPath, name, tmpl)
 	// template, err := utils.New("../templates/"+tmpl+ext, name)
 	if err != nil {
 		fmt.Println("Error reading Template ", err)
 	}
-	err = template.Build()
+	err = template.Build(norepo)
 	if err != nil {
 		fmt.Println("Error creating Template ", err)
 	}
