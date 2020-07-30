@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Command ...
+// Command represent a simple command in Bash
 type Command struct {
 	CMD    string
 	Args   []string
@@ -15,12 +15,17 @@ type Command struct {
 	Stdout bool
 }
 
-// NewC ...
+// NewC return a new Command struct
 func NewC(cmd, dir string, stdout bool) Command {
 	args := splitCMD(cmd)
 	return Command{args[0], args[1:], dir, stdout}
 }
 
+// SplitCMD splits the string cmd around each instance of one or more
+// consecutive white space but detect any valid substring between quotes
+// "" and admit it as a whole single string
+// Ex: cmd = `git commit -m "Initial commit"`` return
+// ["git", "commit", "-m", "Initial commit"]
 func splitCMD(cmd string) []string {
 	fields := strings.Fields(cmd)
 	if strings.Count(cmd, `"`)%2 != 0 {
@@ -48,7 +53,8 @@ func splitCMD(cmd string) []string {
 	return result
 }
 
-// Execute ...
+// Execute a Command c on Terminal and return error if
+// something was wrong
 func (c Command) Execute() error {
 	cmd := exec.Command(c.CMD, c.Args...)
 	cmd.Dir = c.Dir + "/"
@@ -60,10 +66,10 @@ func (c Command) Execute() error {
 	return err
 }
 
-// Commands ...
+// Commands is a list of instances of Command struct
 type Commands []Command
 
-// ExecuteAll ...
+// ExecuteAll runs a sorted list of Commands
 func (c Commands) ExecuteAll() error {
 	for _, cmd := range c {
 		err := cmd.Execute()
@@ -74,7 +80,7 @@ func (c Commands) ExecuteAll() error {
 	return nil
 }
 
-// Execute ...
+// Execute the command n in a list of Commands
 func (c Commands) Execute(n int) error {
 	if n < 0 || n >= len(c) {
 		return fmt.Errorf("n: %d is out of the range", n)

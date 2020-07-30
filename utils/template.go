@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// Template ...
+// Template keeps the structure of a project
 type Template struct {
 	Dirs  []string // directories to create
 	Files []string // files to create
@@ -17,7 +17,7 @@ type Template struct {
 	Name  string   // template name
 }
 
-// New return a Template
+// New return an instance of a Template
 func New(filename, root, tmplName string) (Template, error) {
 	var dirs, files []string
 	file, err := os.Open(filename)
@@ -43,7 +43,7 @@ func New(filename, root, tmplName string) (Template, error) {
 	return Template{dirs, files, root, tmplName}, nil
 }
 
-//Build ...
+//Build the project generating all the files and directories
 func (t Template) Build(norepo bool) error {
 	// Make dirs
 	for _, dir := range t.Dirs {
@@ -67,7 +67,7 @@ func (t Template) Build(norepo bool) error {
 	return t.CreateRepo()
 }
 
-// CreateRepo ...
+// CreateRepo creates a new Git repository into a root of a project
 func (t Template) CreateRepo() error {
 	gitInit := NewC("git init", t.Root, true)
 	gitAdd := NewC("git add .", t.Root, true)
@@ -76,6 +76,7 @@ func (t Template) CreateRepo() error {
 	return commands.ExecuteAll()
 }
 
+// fixLine erases comments inside a line and left and right white spaces
 func fixLine(line string) string {
 	// Removing comments
 	i := strings.Index(line, "#")

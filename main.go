@@ -27,8 +27,11 @@ func main() {
 	cmd.Execute()
 }
 
-// TemplatePath ...
-const TemplatePath = "/src/github.com/krafugo/gops/templates/"
+// GopsRoot is the path of GOPS path
+const GopsRoot = "/src/github.com/krafugo/gops/"
+
+// TemplatePath is the path of templates from $GOPATH
+const TemplatePath = GopsRoot + "templates/"
 
 func init() {
 	gopath := os.Getenv("GOPATH")
@@ -36,7 +39,13 @@ func init() {
 		log.Fatal("GOPATH environment variable is not set. " +
 			"Please refer to http://golang.org/doc/code.html to configure your Go environment.")
 	}
-	err := os.Setenv("GOPS_TEMPLATES", gopath+TemplatePath)
+	err := os.Setenv("GOPS_ROOT", gopath+GopsRoot)
+	checkErr(err)
+	err = os.Setenv("GOPS_TEMPLATES", gopath+TemplatePath)
+	checkErr(err)
+}
+
+func checkErr(err error) {
 	if err != nil {
 		log.Fatal("GOPATH environment variable is not set. " +
 			"Please refer to http://golang.org/doc/code.html to configure your Go environment.")
