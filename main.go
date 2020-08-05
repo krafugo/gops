@@ -33,6 +33,9 @@ const GopsRoot = "/src/github.com/krafugo/gops/"
 // TemplatePath is the path of templates from $GOPATH
 const TemplatePath = GopsRoot + "templates/"
 
+// ContentPath is the path of the content of each file
+const ContentPath = GopsRoot + "content/"
+
 func init() {
 	gopath := os.Getenv("GOPATH")
 	if len(gopath) == 0 {
@@ -42,6 +45,8 @@ func init() {
 	err := os.Setenv("GOPS_ROOT", gopath+GopsRoot)
 	checkErr(err)
 	err = os.Setenv("GOPS_TEMPLATES", gopath+TemplatePath)
+	checkErr(err)
+	err = os.Setenv("GOPS_CONTENT", gopath+ContentPath)
 	checkErr(err)
 }
 
