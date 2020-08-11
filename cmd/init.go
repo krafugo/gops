@@ -2,14 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/spf13/cobra"
 
 	"github.com/krafugo/gops/utils"
 )
-
-const ext = ".tmpl"
 
 // initCmd represents the init command
 var initCmd = &cobra.Command{
@@ -34,9 +31,9 @@ func init() {
 	initCmd.Flags().Bool("norepo", false, "Avoid creating Git repository")
 }
 
+//initProject creates a new instance of a Template
 func initProject(name, tmpl string, norepo bool) {
-	tmplPath := os.Getenv("GOPS_TEMPLATES") + tmpl + ext
-	template, err := utils.New(tmplPath, name, tmpl)
+	template, err := utils.New(name, tmpl)
 	if err != nil {
 		fmt.Println("Error reading Template ", err)
 	}

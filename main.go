@@ -24,6 +24,7 @@ import (
 )
 
 func main() {
+	println(GopsRoot, TemplatePath, SchemaPath, ContentPath, CommunPath)
 	cmd.Execute()
 }
 
@@ -33,8 +34,14 @@ const GopsRoot = "/src/github.com/krafugo/gops/"
 // TemplatePath is the path of templates from $GOPATH
 const TemplatePath = GopsRoot + "templates/"
 
+// SchemaPath is the path of all of templates schemas
+const SchemaPath = TemplatePath + "schema/"
+
 // ContentPath is the path of the content of each file
-const ContentPath = GopsRoot + "content/"
+const ContentPath = TemplatePath + "content/"
+
+// CommunPath is the path of the all commun elements of templates
+const CommunPath = TemplatePath + "commun/"
 
 func init() {
 	gopath := os.Getenv("GOPATH")
@@ -46,7 +53,11 @@ func init() {
 	checkErr(err)
 	err = os.Setenv("GOPS_TEMPLATES", gopath+TemplatePath)
 	checkErr(err)
+	err = os.Setenv("GOPS_SCHEMA", gopath+SchemaPath)
+	checkErr(err)
 	err = os.Setenv("GOPS_CONTENT", gopath+ContentPath)
+	checkErr(err)
+	err = os.Setenv("GOPS_COMMUN", gopath+CommunPath)
 	checkErr(err)
 }
 
