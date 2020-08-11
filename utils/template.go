@@ -17,9 +17,12 @@ type Template struct {
 	Name  string   // template name
 }
 
+const ext = ".tmpl"
+
 // New return an instance of a Template
-func New(filename, root, tmplName string) (Template, error) {
+func New(root, tmplName string) (Template, error) {
 	var dirs, files []string
+	filename := os.Getenv("GOPS_SCHEMA") + tmplName + ext
 	file, err := os.Open(filename)
 	if err != nil {
 		fmt.Println("Error opening file: ", err)
@@ -33,14 +36,12 @@ func New(filename, root, tmplName string) (Template, error) {
 		line := fixLine(scanner.Text())
 		if len(line) == 0 {
 			continue
-		} else if strings.HasSuffix(line, "/") {
-			line = line[:len(line)-1]
-			dirs = append(dirs, line)
-		} else if i := strings.LastIndex(line, "/"); i != -1 {
-			dir := line[:i+1]
+		}
+		dir, file := splitFilename(line)
+		if len(dir) != 0 {
 			dirs = append(dirs, dir)
-			files = append(files, line)
-		} else {
+		}
+		if len(file) != 0 {
 			files = append(files, line)
 		}
 	}
@@ -74,6 +75,26 @@ func (t Template) Build(norepo bool) error {
 		return nil
 	}
 	return t.CreateRepo()
+}
+
+func (t Template) String() string {
+	r := "Template: " + t.Name + "\n"
+	if len(t.Name) != 0 {
+		r += "Project: " + t.Root + "\n"
+	}
+	if len(t.Dirs) != 0 {
+		r += "Dirs: \n"
+		for _, dir := range t.Dirs {
+			r += "\t" + dir + "\n"
+		}
+	}
+	if len(t.Files) != 0 {
+		r += "Files: \n"
+		for _, file := range t.Files {
+			r += "\t" + file + "\n"
+		}
+	}
+	return r
 }
 
 // CreateRepo creates a new Git repository into a root of a project
@@ -110,7 +131,8 @@ func loadContent(tmpl, filename string) []byte {
 	if err == nil {
 		return content
 	}
-	content, err = ioutil.ReadFile(contentPath + "commun/" + filename)
+	communPath := os.Getenv("GOPS_COMMUN")
+	content, err = ioutil.ReadFile(communPath + filename)
 	if err == nil {
 		return content
 	}
@@ -124,6 +146,7 @@ func splitFilename(file string) (string, string) {
 	return "", file
 }
 
+//! This should be a map of token-value
 func replaceTokens(content []byte, projectName string) []byte {
 	return []byte(strings.ReplaceAll(string(content), "{# projectName #}", projectName))
 }
