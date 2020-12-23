@@ -1,0 +1,92 @@
+rest-api/
+- main.go
+- user/
+- - user.go
+- - login.go
+- - registration.go
+- articles/
+- - articles.go
+- utils/
+- - common_utils.go
+
+FLAT
+
+application/
+ - main.go
+ - main_test.go
+ - utils.go
+ - utils_test.go
+ - ...
+
+MINE
+
+app/
+tmp/
+db/
+logs/
+tests/
+main.go 
+
+BEEGO
+
+|——main.go         import documents
+|——conf            configuration files and processing module
+|——controllers     controller entry
+|——models          database processing module
+|——utils           useful function library
+|——static          static file directory
+|——views           view gallery
+
+
+KRAKEN-TEMPLATE
+
+|——conf/            configuration files and processing module
+|——controllers/     controller entry
+|——models/          database processing module
+|——utils/           useful function library
+|——static/          static file directory
+|——views/           view gallery
+|——tests/           unit tests
+|——main.go          import documents
+|——README.md        project doc
+|——CONTRIBUTING.md  contribution doc
+|——CODEOWNERS       authors
+|——robots.txt
+
+
+SPECIAL
+
+├── api
+│   ├── auth
+│   │   ├── principal.middleware.go
+│   │   └── jwt.helper.go
+│   ├── cmd
+│   │   └── main.go
+│   ├── registration
+│   │   ├── login.handler.go
+│   │   ├── social_login.handler.go
+│   │   ├── register.handler.go
+│   │   ├── social_register.handler.go
+│   │   ├── reset.handler.go
+│   │   ├── helper.go
+│   │   └── adapter.go
+├── cmd
+│   └── main.go
+├── config
+│   ├── config.dev.json
+│   ├── config.local.json
+│   ├── config.prod.json
+│   ├── config.test.json
+│   └── config.go
+├── db
+│   ├── handlers
+│   ├── models
+│   ├── tests
+│   ├── db.go
+│   └── service.go
+├── locales
+│   ├── en.json
+│   └── fr.json
+├── public
+├── vendor
+├── Makefile
